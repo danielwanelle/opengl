@@ -1,6 +1,6 @@
 #include<stdint.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+// #include <GL/gl.h>
+// #include <GL/glu.h>
 #include<GL/glut.h>
 
 int h, v;
@@ -24,6 +24,39 @@ void Desenha(void)
     glutSwapBuffers();
 }
 
+void Timer(int value)
+{
+    // Muda (x,y) movendo o desenho
+    // Cuidado para não ultrapassar os limites da janela
+    if (h == 1 && x+2*d < 800) {
+        x += passox;
+    } else if (h == 1 && x+2*d >= 800) {
+        x -= passox;
+        h = 0;
+    } else if (h == 0 && x <= 0) {
+        x += passox;
+        h = 1;
+    } else {
+        x -= passox;
+    }
+
+    if (v == 1 && y+d < 600) {
+        y += passoy;
+    } else if (v == 1 && y+d >= 600) {
+        y -= passoy;
+        v = 0;
+    } else if (v == 0 && y <= 0) {
+        y += passoy;
+        v = 1;
+    } else {
+        y -= passoy;
+    }
+    
+    glutPostRedisplay(); //Redesenha
+    // glutDestroyWindow(value);
+    glutTimerFunc(33,Timer, 1); //Aguarda 33 ms e volta
+}
+
 void Inicializa(void) {
     x = 100.0f;
     y = 150.0f;
@@ -33,33 +66,8 @@ void Inicializa(void) {
     h = 1;
     v = -1;
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    gluOrtho2D(0.0f, 800, 0.0f, 600);
+    gluOrtho2D(0.0f, 800.0f, 0.0f, 600.0f);
     glMatrixMode(GL_MODELVIEW);
-}
-
-void Timer(int value)
-{
-    // Muda (x,y) movendo o desenho
-    // Cuidado para não ultrapassar os limites da janela
-    if (h > 0 && x+2*d < 800.0f) {
-        x += passox;
-    } else if (h > 0 && x+2*d >= 800.0f) {
-        x -= passox;
-        h *= -1;
-    } else {
-        x -= passox;
-    }
-
-    if (v > 0 && y+d < 600.0f) {
-        y += passoy;
-    } else if (v > 0 && x+2*d >= 800.0f) {
-        y -= passoy;
-        v *= -1;
-    } else {
-        y -= passoy;
-    }
-    
-    glutPostRedisplay(); //Redesenha
     glutTimerFunc(33,Timer, 1); //Aguarda 33 ms e volta
 }
 

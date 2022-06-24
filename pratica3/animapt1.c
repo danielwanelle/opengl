@@ -1,6 +1,6 @@
 #include<stdint.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+// #include<GL/gl.h>
+// #include<GL/glu.h>
 #include<GL/glut.h>
 
 int gira;
@@ -13,11 +13,11 @@ void Desenha(void) {
     glClear(GL_COLOR_BUFFER_BIT);
     glBegin(GL_TRIANGLES);
         glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2i(x,y);
+        glVertex2i(100.0f, 150.0f);
         glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex2i(x+d,y+d);
+        glVertex2i(150.0f, 200.0f);
         glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex2i(x+d+d,y);
+        glVertex2i(200.0f, 150.0f);
     glEnd();
 
     glFlush();
@@ -63,7 +63,7 @@ void Teclado(unsigned char key, int x, int y) {
             exit(0);
             break;
     }
-    glutPostRedisplay()
+    glutPostRedisplay();
 }
 
 void TeclasEspeciais(int key, int x, int y) {
@@ -101,14 +101,14 @@ void GerenciaMouse(int button, int state, int x, int y) {
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
+    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
     glutInitWindowSize(640,480);
     glutInitWindowPosition(350, 100);
     glutCreateWindow("Ex3");
     glutDisplayFunc(Desenha);
     glutKeyboardFunc(Teclado);
-    glutSpecialFunc(TeclasEspeciais)
-    glutMouseFunc(GerenciaMouse)
+    glutSpecialFunc(TeclasEspeciais);
+    glutMouseFunc(GerenciaMouse);
     Inicializa();
     glutMainLoop();
 }

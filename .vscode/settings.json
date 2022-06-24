@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "glut.h": "c"
+        "glut.h": "c",
+        "gl.h": "c"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
