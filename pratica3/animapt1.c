@@ -20,6 +20,11 @@ void Desenha(void) {
         glVertex2i(200.0f, 150.0f);
     glEnd();
 
+    if (gira == 1) {
+        angulo += 0.1;
+        glRotatef(angulo, 0, 0, 1);
+    }
+
     glFlush();
 }
 
@@ -38,10 +43,10 @@ void Teclado(unsigned char key, int x, int y) {
     switch (key)
     {
         case 65: // Aumentar figura
-            glScalef(win*1.5f, win*1.5f, 0.0);
+            glScalef(1.5, 1.5, 0.0);
             break;
         case 68: // Diminuir figura
-            glScalef(win*0.5f, win*0.5f, 0.0);
+            glScalef(0.5, 0.5, 0.0);
             break;
         case 71: // Colocar figura para girar
             gira = 1;
@@ -55,7 +60,7 @@ void Teclado(unsigned char key, int x, int y) {
             angulo = 0;
             gira = 0;
             win = 1;
-            glScalef(win, win, 0.0);
+            glLoadIdentity();
         case 80: // Parar
             gira = 0;
             break;
@@ -105,10 +110,10 @@ int main(int argc, char** argv) {
     glutInitWindowSize(640,480);
     glutInitWindowPosition(350, 100);
     glutCreateWindow("Ex3");
+    Inicializa();
     glutDisplayFunc(Desenha);
     glutKeyboardFunc(Teclado);
     glutSpecialFunc(TeclasEspeciais);
     glutMouseFunc(GerenciaMouse);
-    Inicializa();
     glutMainLoop();
 }

@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
     glutInitWindowSize(800, 600);
     glutInitWindowPosition(350, 100);
-    glutCreateWindow("Ex3");
+    glutCreateWindow("Ex4");
     glutIdleFunc(Desenha);
     Inicializa();
     glutMainLoop();
