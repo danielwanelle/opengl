@@ -1,6 +1,3 @@
-#include<stdint.h>
-// #include<GL/gl.h>
-// #include<GL/glu.h>
 #include<GL/glut.h>
 
 int gira;
@@ -8,8 +5,6 @@ GLfloat tx, ty, angulo, win;
 
 void Desenha(void) {
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glClearColor(1,1,1,0);
     glClear(GL_COLOR_BUFFER_BIT);
     glBegin(GL_TRIANGLES);
         glColor3f(1.0f, 0.0f, 0.0f);
@@ -19,52 +14,55 @@ void Desenha(void) {
         glColor3f(0.0f, 0.0f, 1.0f);
         glVertex2i(200.0f, 150.0f);
     glEnd();
-
     if (gira == 1) {
-        angulo += 0.1;
-        glRotatef(angulo, 0, 0, 1);
+        angulo += 0.1f;
+        glRotatef(angulo, tx, ty, 1.0f);
     }
 
     glFlush();
 }
 
 void Inicializa(void) {
-    tx = 0; // movimentos cima, baixo, esquerda e direita
-    ty = 0; // movimentos cima, baixo, esquerda e direita
-    angulo = 0; // incrementar = efeito da rotação
-    gira = 0; // 0 = parado e 1 = girando
-    win = 1; //SRT começa com (-win,win,-win,win)
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    gluOrtho2D (-win, win, -win, win);
-    glMatrixMode(GL_MODELVIEW);
+    tx = 0;
+    ty = 0;
+    angulo = 0;
+    gira = 0;
+    win = 1;
+    gluOrtho2D(0.0f, 640.0f, 0.0f, 480.0f);
 }
 
 void Teclado(unsigned char key, int x, int y) {
     switch (key)
     {
-        case 65: // Aumentar figura
-            glScalef(1.5, 1.5, 0.0);
+        case 'a':
+        case 'A':
+            glScalef(1.5f, 1.5f, 0.0f);
             break;
-        case 68: // Diminuir figura
+        case 'd':
+        case 'D':
             glScalef(0.5, 0.5, 0.0);
             break;
-        case 71: // Colocar figura para girar
+        case 'g':
+        case 'G':
             gira = 1;
             break;
-        case 82: // Rotacionar figura manualmente
+        case 'r':
+        case 'R':
             glRotatef(36, 0, 0, 0);
             break;
-        case 79: // Restaurar imagem original
+        case 'o':
+        case 'O':
             tx = 0;
             ty = 0;
             angulo = 0;
             gira = 0;
             win = 1;
             glLoadIdentity();
-        case 80: // Parar
+        case 'p':
+        case 'P':
             gira = 0;
             break;
-        case 27: // Sair da aplicação
+        case 27:
             exit(0);
             break;
     }
@@ -72,19 +70,23 @@ void Teclado(unsigned char key, int x, int y) {
 }
 
 void TeclasEspeciais(int key, int x, int y) {
-    switch (key) // setas do teclado
+    switch (key)
     {
         case GLUT_KEY_UP:
-            ty++;
+            ty = 1;
+            tx = 0;
             break;
         case GLUT_KEY_DOWN:
-            ty--;
+            ty = -1;
+            tx = 0;
             break;
         case GLUT_KEY_LEFT:
-            tx--;
+            tx = -1;
+            ty = 0;
             break;
         case GLUT_KEY_RIGHT:
-            tx++;
+            tx = 1;
+            ty = 0;
             break;
     }
     glTranslatef(tx,ty,0);
@@ -95,10 +97,12 @@ void GerenciaMouse(int button, int state, int x, int y) {
     switch(button)
     {
         case GLUT_LEFT_BUTTON:
-            if (state == GLUT_DOWN) win+=10;
+            if (state == GLUT_DOWN) glScalef(1.5f, 1.5f, 0.0f);
+            break;;
             break;
         case GLUT_RIGHT_BUTTON:
-            if (state == GLUT_DOWN) win-=10;
+            if (state == GLUT_DOWN) glScalef(0.5f, 0.5f, 0.0f);
+            break;;
             break;
     }
     glutPostRedisplay();
