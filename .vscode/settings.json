@@ -2,7 +2,8 @@
     "files.associations": {
         "glut.h": "c",
         "gl.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "string.h": "c"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
