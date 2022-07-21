@@ -2,13 +2,12 @@
 #include <stdio.h>
 // #include <string.h>
 
-int tipofigura;
+int tipofigura, rotate;
 GLint rings, nsides, slices, stacks;
-GLdouble size, radius, height, innerRadius, outerRadius, eyex, eyey, eyez, angle, fAspect, eyex, eyey, eyez;
+GLdouble size, radius, height, innerRadius, outerRadius, eyex, eyey, eyez, red, green, blue, angle, fAspect, zNear, zFar, scale, eyex, eyey, eyez;
 
 void PosicionaObservador(void)
 {
-    puts("Posiciona observador");
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(eyex, eyey, eyez, 0, 0, 0, 0, 1, 0);
@@ -16,16 +15,14 @@ void PosicionaObservador(void)
 
 void EspecificaParametrosVisualizacao(void)
 {
-    puts("Especifica parametros");
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(angle, fAspect, 0.5, 500);
+    gluPerspective(angle, fAspect, zNear, zFar);
     PosicionaObservador();
 }
 
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 {
-    puts("Altera o tamanho da janela");
     if (h == 0)
         h = 1;
     glViewport(0, 0, w, h);
@@ -35,7 +32,7 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 
 void Teclado(unsigned char key, int x, int y)
 {
-    printf("Key %d", key);
+    rotate = 0;
     if (tipofigura == 3 || tipofigura == 4)
     {
         switch (key)
@@ -101,6 +98,36 @@ void Teclado(unsigned char key, int x, int y)
         tipofigura = 5;
         break;
 
+    case 54:
+        red = 1;
+        green = 0;
+        blue = 0;
+        break;
+
+    case 55:
+        red = 0;
+        green = 1;
+        blue = 0;
+        break;
+
+    case 56:
+        red = 0;
+        green = 0;
+        blue = 1;
+        break;
+
+    case 57:
+        scale = 1.5;
+        break;
+
+    case 48:
+        scale = 0.5;
+        break;
+
+    case 103:
+        rotate = 1;
+        break;
+
     case 102:
         eyez += 1;
         break;
@@ -131,11 +158,18 @@ void Teclado(unsigned char key, int x, int y)
     }
 
     PosicionaObservador();
-    glutPostRedisplay();
 }
 
 void Desenha(void)
 {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(red, green, blue);
+    glScalef(scale, scale, scale);
+    if (rotate == 1)
+    {
+        glRotatef(3.6, 0.0, 1.0, 0.0);
+    }
+
     switch (tipofigura)
     {
     case 1:
@@ -158,6 +192,8 @@ void Desenha(void)
         glutWireTorus(innerRadius, outerRadius, nsides, rings);
         break;
     }
+    glutSwapBuffers();
+    scale = 1.0;
 }
 
 void Inicializa(void)
@@ -165,6 +201,10 @@ void Inicializa(void)
     tipofigura = 1;
     angle = 35.0f;
     fAspect = 0.0f;
+    zNear = 0.5;
+    zFar = 500;
+    scale = 1.0;
+    rotate = 0;
     rings = 6;
     nsides = 20;
     slices = 20;
@@ -177,16 +217,20 @@ void Inicializa(void)
     eyex = 0;
     eyey = 0;
     eyez = -200;
-    AlteraTamanhoJanela(640, 480);
+    red = 0;
+    green = 0;
+    blue = 1;
+    glClearColor(1, 1, 1, 0);
 }
 
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(640, 480);
     glutCreateWindow("Ex7");
     Inicializa();
+    glutReshapeFunc(AlteraTamanhoJanela);
     glutIdleFunc(Desenha);
     glutKeyboardFunc(Teclado);
     glutMainLoop();
