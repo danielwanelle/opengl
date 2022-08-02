@@ -4,7 +4,7 @@
 
 int tipofigura, rotate;
 GLint rings, nsides, slices, stacks;
-GLdouble size, radius, height, innerRadius, outerRadius, eyex, eyey, eyez, red, green, blue, angle, fAspect, zNear, zFar, scale, eyex, eyey, eyez;
+GLdouble size, radius, height, innerRadius, outerRadius, eyex, eyey, eyez, red, green, blue, angle, fAspect, zNear, zFar, scale;
 
 void PosicionaObservador(void)
 {
