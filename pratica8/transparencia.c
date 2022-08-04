@@ -158,8 +158,8 @@ void Inicializa(void)
     glEnable(GL_LIGHTING);
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
     glEnable(GL_COLOR_MATERIAL);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, luzEspecular);
-    glMateriali(GL_FRONT, GL_SHININESS, 60);
+    // glMaterialfv(GL_FRONT, GL_SPECULAR, luzEspecular);
+    // glMateriali(GL_FRONT, GL_SHININESS, 60);
     glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
     glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
